@@ -12,18 +12,16 @@ type Board = Cell[][]
 
 // 5x5 boards
 const initialBoard: Board = [
-  [{ display: "h" }], [{ display: "h" }], [{ display: "" }], [{ display: "" }], [{ display: "" }],
-  [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }],
-  [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }],
-  [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }],
-  [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }], [{ display: "" }],
+  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
+  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
+  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
+  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
+  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
 ]
-
 const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx: number }) => {
   return (
-    <div>
-      test
-      {/* {board[rowIdx][colIdx]} */}
+    <div className='flex flex-row h-5 w-5'>
+      {board[rowIdx][colIdx].display}
     </div>
 
 
@@ -31,12 +29,19 @@ const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx:
 
 }
 
-const Row = ({ board }: { board: Board }) => {
+const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
   return (
-    <div>
-      This is a row
-    </div>
+    <>
+      <div className="flex flex-row bg-green-200 border border-5">
+        {board[rowIdx].map((element, idx) => {
+          return (<Cell board={board} rowIdx={rowIdx} colIdx={idx} />)
+        })}
+
+      </div>
+    </>
   )
+
+
 }
 const Board = () => {
 
@@ -44,7 +49,7 @@ const Board = () => {
   console.log(board)
   return (
     <div>
-      {board.map(() => <Row board={board} />)}
+      {board.map((element, index) => <Row board={board} rowIdx={index} />)}
     </div>
   )
 
