@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 type Cell = {
@@ -44,6 +44,11 @@ const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
 
 }
 const Board = () => {
+
+  document.addEventListener('keydown', (event) => {
+    console.log(`Key: ${event.key} with keycode ${event.keyCode}`)
+  })
+
 
   const [board, setBoard] = useState(structuredClone(initialBoard))
   console.log(board)
