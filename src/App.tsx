@@ -20,7 +20,7 @@ const initialBoard: Board = [
 ]
 const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx: number }) => {
   return (
-    <div className='flex flex-row h-5 w-5'>
+    <div className='flex border border-5 flex-row h-10 w-10'>
       {board[rowIdx][colIdx].display}
     </div>
 
