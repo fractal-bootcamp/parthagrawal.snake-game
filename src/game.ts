@@ -18,11 +18,37 @@ function moveDown(position: Position): Position | null {
     if (position >= 20) return null
     return position + 5
 }
+function moveUp(position: Position): Position | null {
+    if (position <= 5) return null
+    return position - 5
+}
+function moveRight(position: Position): Position | null {
+    if ((position + 1) % 5 == 0) return null;
+    return position + 1
+}
+function moveLeft(position: Position): Position | null {
+    if (position % 5 == 0) return null;
+    return position - 1
+}
+
 
 function calculateNextSnake(snake: Snake, movement: Movement) {
+    let newHeadPosition: Position | null = null;
+
     //1. add a new head
-    // this is stupid, do a normal if statement
-    const newHeadPosition: Position | null = movement == 'down' ? moveDown(snake[0]) : snake[0]
+    if (movement == 'down') {
+        newHeadPosition = moveDown(snake[0])
+    }
+    else if (movement == 'up') {
+        newHeadPosition = moveUp(snake[0])
+    }
+    else if (movement == 'right') {
+        newHeadPosition = moveRight(snake[0])
+    }
+    else if (movement == 'left') {
+        newHeadPosition = moveLeft(snake[0])
+    }
+
     //2. remove the old tail
     const withoutTail = snake.slice(0, -1)
     return [newHeadPosition, ...withoutTail]

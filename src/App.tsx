@@ -12,11 +12,11 @@ type Board = Cell[][]
 
 // 5x5 boards
 const initialBoard: Board = [
-  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
-  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
-  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
-  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
-  [{ display: "h" }, { display: "h" }, { display: "h" }, { display: "h" }, { display: "h" },],
+  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+  [{ display: "" }, { display: "" }, { display: "S" }, { display: "" }, { display: "" },],
+  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
 ]
 const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx: number }) => {
   return (
