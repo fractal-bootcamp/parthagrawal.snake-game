@@ -3,6 +3,17 @@ import './App.css'
 import { Movement, Position, Snake, calculateNextSnake } from './game'
 
 
+/**
+ * TODO: 
+ * Add collision detection
+ * need to add protection against head "turning back in on itself"
+ * Remove restart button when the game isn't visible. or make it work 
+ *  even if the game hasn't been won
+ * Ensure apple does not spawn where the snake is
+ * Randomize snake spawn point
+ * 
+ */
+
 const BOARD_SIZE = 25
 // type Cell = {
 //   display: string // snake | apple | X
@@ -83,12 +94,16 @@ const Board = () => {
   const [snake, setSnake] = useState(initialSnake)
   const [apple, setApple] = useState(initialApple)
   const [win, setWin] = useState(false)
+  const [moveDirection, setMoveDirection] = useState('ArrowDown' as Movement)
 
-  const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
-    const { key } = event;
-    console.log("new handle key press:", event)
 
-    const newSnake = calculateNextSnake(snake, key as Movement)
+  // move the snake continuously per setInterval.
+  // keypress sets the new direction
+
+  setInterval(moveSnakeContinuously, 2000);
+
+  function moveSnakeContinuously() {
+    const newSnake = calculateNextSnake(snake, moveDirection)
     if (newSnake != null) {
       // const newGame = { ...game, snake: newSnake }
       // debugger;
@@ -99,22 +114,27 @@ const Board = () => {
       // setCounter(counter + 1)
 
     }
+  }
 
-  }, [setSnake, snake])
 
+  // remove callback function 
+
+  const handleUserKeyPress = (event: KeyboardEvent) => {
+    const { key } = event;
+    console.log("new handle key press:", event)
+
+
+
+  }
+
+  // registers user keypress, if the game is still going
   useEffect(() => {
     if (!win) {
       document.addEventListener('keydown', handleUserKeyPress)
       return () => { document.removeEventListener('keydown', handleUserKeyPress) }
     }
+    if (win) console.log('you win!')
   }, [handleUserKeyPress, win])
-
-  useEffect(() => {
-
-    console.log('you win!')
-
-  }, [win])
-
 
   const board = getPaintedBoard({ apple, snake })
 
