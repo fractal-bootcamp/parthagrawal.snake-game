@@ -63,7 +63,6 @@ const Cell = ({ value }: { value: string }) => {
   )
 }
 
-const initialSnake: Snake = [2, 3, 4]
 
 const getPaintedBoard = (game: Game): Board => {
   const { apple, snake } = game
@@ -75,6 +74,7 @@ const getPaintedBoard = (game: Game): Board => {
   return paintedBoard
 }
 
+const initialSnake: Snake = [2, 3, 4]
 const initialApple = Math.floor(Math.random() * 25 + 1)
 
 const Board = () => {
@@ -124,19 +124,19 @@ const Board = () => {
       {/* board is an array of cells */}
       {/* map over cells. draw the cells based on contents */}
       <div className="flex flex-row">
-        {board.slice(0, 5).map((element, index) => { return <Cell value={element} /> })}
+        {board.slice(0, 5).map((element) => { return <Cell value={element} /> })}
       </div>
       <div className="flex flex-row">
-        {board.slice(5, 10).map((element, index) => { return <Cell value={element} /> })}
+        {board.slice(5, 10).map((element) => { return <Cell value={element} /> })}
       </div>
       <div className="flex flex-row">
-        {board.slice(10, 15).map((element, index) => { return <Cell value={element} /> })}
+        {board.slice(10, 15).map((element) => { return <Cell value={element} /> })}
       </div>
       <div className="flex flex-row">
-        {board.slice(15, 20).map((element, index) => { return <Cell value={element} /> })}
+        {board.slice(15, 20).map((element) => { return <Cell value={element} /> })}
       </div>
       <div className="flex flex-row">
-        {board.slice(20, 25).map((element, index) => { return <Cell value={element} /> })}
+        {board.slice(20, 25).map((element) => { return <Cell value={element} /> })}
       </div>
       {/* {board.map((element, index) => <Row board={board} rowIdx={index} />)} */}
       <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(false) }}>
@@ -150,7 +150,6 @@ const Board = () => {
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
