@@ -21,15 +21,14 @@ import { Movement, Snake, calculateNextSnake } from './game'
 //   [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
 // ]
 
-type Cell = {
-  display: 'S' | 'A' | ''
-}
+type Cell = 'S' | 'A' | ''
+
 
 type Board = Cell[]
 
 // const initialBoard: Board = Array(25).fill('')
-const initialBoard: Board = ['S', 'S', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
-
+// const initialBoard: Board = [{display: 'S'}, 'S', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+const initialBoard: Board = ['S', 'S', 'S', 'S', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
 
 
 
@@ -48,10 +47,10 @@ const initialBoard: Board = ['S', 'S', '', '', '', '', '', '', '', '', '', '', '
 
 // }
 
-const Cell = ({ display }: Cell) => {
+const Cell = ({ value }: { value: string }) => {
   return (
     <div className='flex border bg-green-400 border-5 flex-row h-10 w-10'>
-      {display}
+      {value}
     </div>
 
   )
@@ -73,6 +72,11 @@ const Board = () => {
 
   }, [setSnake])
 
+  useEffect(() => {
+    const newBoard: Board = board.slice()
+
+
+  })
 
   useEffect(() => {
     document.addEventListener('keydown', (event) => {
@@ -87,7 +91,7 @@ const Board = () => {
     <div>
       {/* board is an array of cells */}
       {/* map over cells. draw the cells based on contents */}
-      {board.map((element, index) => { return <Cell display={element.display} /> })}
+      {board.map((element, index) => { return <Cell value={element} /> })}
       {/* {board.map((element, index) => <Row board={board} rowIdx={index} />)} */}
     </div>
   )

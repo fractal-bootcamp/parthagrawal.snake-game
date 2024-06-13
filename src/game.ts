@@ -1,5 +1,4 @@
 
-type Cell = 'S' | 'A' | ''
 
 // a number between 0 and 24
 export type Position = number
@@ -10,7 +9,6 @@ export type Movement = 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight'
 
 export type Board = Cell[]
 
-const initialBoard: Board = Array(25).fill('')
 
 // given a moveDown command calculate the nextMove
 // if moveDown returns null, the move was impossible (crashed into a wall)
