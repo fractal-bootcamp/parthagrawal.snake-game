@@ -54,7 +54,7 @@ const initialBoard = Array(BOARD_SIZE).fill('')
 // const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
 //   return (
 //     <>
-//       <div className="flex flex-row bg-green-200 border border-5">
+//       <div className="flex flex-row bg-red-200 border border-5">
 //         {board[rowIdx].map((element, idx) => {
 //           return (<Cell board={board} rowIdx={rowIdx} colIdx={idx} />)
 //         })}
