@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import './App.css'
 import { Movement, Position, Snake, calculateNextSnake } from './game'
 
@@ -66,14 +66,6 @@ const initialBoard = Array(BOARD_SIZE).fill('')
 
 // }
 
-const Cell = ({ value }: { value: string }) => {
-  return (
-    <div className='flex  bg-lime-300  flex-row h-10 w-10'>
-      {value}
-    </div>
-
-  )
-}
 
 
 const getPaintedBoard = (game: Game): Board => {
@@ -131,7 +123,7 @@ const Board = () => {
   // keypress sets the new direction
   useEffect(() => {
     if (win === null) moveSnakeContinuously()
-    setTimeout(() => setStep(step + 1), 2000);
+    setTimeout(() => setStep(step + 1), 1000);
     // return clearInterval(id)
   }, [step])
 
@@ -163,22 +155,22 @@ const Board = () => {
         {/* board is an array of cells */}
         {/* map over cells. draw the cells based on contents */}
         <div className="flex flex-row m-1 gap-1">
-          {board.slice(0, 5).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+          {board.slice(0, 5).map((element, idx) => { return <Cell key={idx} value={element} snake={snake} /> })}
         </div>
         <div className="flex flex-row m-1 gap-1">
-          {board.slice(5, 10).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+          {board.slice(5, 10).map((element, idx) => { return <Cell key={idx} value={element} snake={snake} /> })}
         </div>
         <div className="flex flex-row m-1 gap-1">
-          {board.slice(10, 15).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+          {board.slice(10, 15).map((element, idx) => { return <Cell key={idx} value={element} snake={snake} /> })}
         </div>
         <div className="flex flex-row m-1 gap-1">
-          {board.slice(15, 20).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+          {board.slice(15, 20).map((element, idx) => { return <Cell key={idx} value={element} snake={snake} /> })}
         </div>
         <div className="flex flex-row m-1 gap-1">
-          {board.slice(20, 25).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+          {board.slice(20, 25).map((element, idx) => { return <Cell key={idx} value={element} snake={snake} /> })}
         </div>
       </div>
-      <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(false) }}>
+      <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(null) }}>
         Reset
       </button>
       <WinLabel win={win} />
@@ -198,6 +190,28 @@ const WinLabel = ({ win }: { win: WinState }) => {
   else {
     return (<div>keep playing...</div>)
   }
+}
+
+const Cell = ({ value, snake }: { value: string, snake: Snake }) => {
+  return (
+    <div className='flex  bg-lime-300  flex-row h-10 w-10'>
+      {/* {value} */}
+      {checkRenderedImage(value, snake)}
+
+    </div>
+
+  )
+}
+
+function checkRenderedImage(value: string, snake: Snake): ReactNode {
+  if (value === 'A') {
+    return <img src="apple.png" />
+  }
+  else if (value === 'S') {
+    return <img src="circle.png" />
+  }
+  return (value)
+
 }
 
 
