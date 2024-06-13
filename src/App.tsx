@@ -42,6 +42,7 @@ type Board = Cell[]
 type Game = {
   snake: Snake,
   apple: Position,
+  moveDirection: Movement
 }
 
 // const initialBoard: Board = Array(25).fill('')
@@ -67,7 +68,7 @@ const initialBoard = Array(BOARD_SIZE).fill('')
 
 const Cell = ({ value }: { value: string }) => {
   return (
-    <div className='flex border bg-green-400 border-5 flex-row h-10 w-10'>
+    <div className='flex  bg-lime-300  flex-row h-10 w-10'>
       {value}
     </div>
 
@@ -76,9 +77,18 @@ const Cell = ({ value }: { value: string }) => {
 
 
 const getPaintedBoard = (game: Game): Board => {
-  const { apple, snake } = game
+  const { apple, snake, moveDirection } = game
   const paintedBoard = structuredClone(initialBoard)
-  snake.forEach((position) => {
+  const head = snake[0]
+  const moveDirectionToArrow: Record<Movement, '^' | 'v' | '>' | '<'> = {
+    "ArrowDown": 'v',
+    "ArrowUp": '^',
+    "ArrowLeft": '<',
+    "ArrowRight": ">"
+  }
+  paintedBoard[head] = moveDirectionToArrow[moveDirection]
+  const body = snake.slice(1)
+  body.forEach((position) => {
     paintedBoard[position] = 'S'
   })
   paintedBoard[apple] = 'A'
@@ -94,15 +104,11 @@ const Board = () => {
   const [snake, setSnake] = useState(initialSnake)
   const [apple, setApple] = useState(initialApple)
   const [win, setWin] = useState(false)
-  const [moveDirection, setMoveDirection] = useState('ArrowDown' as Movement)
+  const [moveDirection, setMoveDirection] = useState<Movement>('ArrowDown')
+  const [step, setStep] = useState(0)
 
-
-  // move the snake continuously per setInterval.
-  // keypress sets the new direction
-
-  setInterval(moveSnakeContinuously, 2000);
-
-  function moveSnakeContinuously() {
+  const moveSnakeContinuously = () => {
+    // debugger;
     const newSnake = calculateNextSnake(snake, moveDirection)
     if (newSnake != null) {
       // const newGame = { ...game, snake: newSnake }
@@ -116,14 +122,21 @@ const Board = () => {
     }
   }
 
+  // move the snake continuously per setInterval.
+  // keypress sets the new direction
+  useEffect(() => {
+    moveSnakeContinuously()
+    setTimeout(() => setStep(step + 1), 2000);
+    // return clearInterval(id)
+  }, [step])
+
 
   // remove callback function 
 
   const handleUserKeyPress = (event: KeyboardEvent) => {
     const { key } = event;
     console.log("new handle key press:", event)
-
-
+    setMoveDirection(key as Movement)
 
   }
 
@@ -136,33 +149,34 @@ const Board = () => {
     if (win) console.log('you win!')
   }, [handleUserKeyPress, win])
 
-  const board = getPaintedBoard({ apple, snake })
+  const board = getPaintedBoard({ apple, snake, moveDirection })
 
   console.log("board repainted!:" + board)
   return (
     <div>
       {/* board is an array of cells */}
       {/* map over cells. draw the cells based on contents */}
-      <div className="flex flex-row">
-        {board.slice(0, 5).map((element) => { return <Cell value={element} /> })}
+      <div className="flex flex-row m-1 gap-1">
+        {board.slice(0, 5).map((element, idx) => { return <Cell key={idx} value={element} /> })}
       </div>
-      <div className="flex flex-row">
-        {board.slice(5, 10).map((element) => { return <Cell value={element} /> })}
+      <div className="flex flex-row m-1 gap-1">
+        {board.slice(5, 10).map((element, idx) => { return <Cell key={idx} value={element} /> })}
       </div>
-      <div className="flex flex-row">
-        {board.slice(10, 15).map((element) => { return <Cell value={element} /> })}
+      <div className="flex flex-row m-1 gap-1">
+        {board.slice(10, 15).map((element, idx) => { return <Cell key={idx} value={element} /> })}
       </div>
-      <div className="flex flex-row">
-        {board.slice(15, 20).map((element) => { return <Cell value={element} /> })}
+      <div className="flex flex-row m-1 gap-1">
+        {board.slice(15, 20).map((element, idx) => { return <Cell key={idx} value={element} /> })}
       </div>
-      <div className="flex flex-row">
-        {board.slice(20, 25).map((element) => { return <Cell value={element} /> })}
+      <div className="flex flex-row m-1 gap-1">
+        {board.slice(20, 25).map((element, idx) => { return <Cell key={idx} value={element} /> })}
       </div>
-      {/* {board.map((element, index) => <Row board={board} rowIdx={index} />)} */}
+      <div className='flex border-2 border-red-300'>
+      </div>
       <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(false) }}>
         Reset
       </button>
-      {win ? <div>You Win!</div> : <></>}
+      {win ? <div>You Win!</div> : <div>no win</div>}
     </div >
   )
 
@@ -173,8 +187,12 @@ function App() {
 
   return (
     <>
-      Snake Game here
-      <Board />
+      <header className="text-xl font-bold">Snake Game</header>
+      <div className="flex items-center h-lvh">
+        <Board />
+
+      </div>
+
     </>
   )
 }
