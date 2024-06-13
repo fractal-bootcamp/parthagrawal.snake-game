@@ -7,7 +7,6 @@ export type Snake = Position[] // first cell in the array is the position of its
 
 export type Movement = 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight'
 
-export type Board = Cell[]
 
 
 // given a moveDown command calculate the nextMove
@@ -31,25 +30,32 @@ function moveLeft(position: Position): Position | null {
 
 
 export function calculateNextSnake(snake: Snake, movement: Movement) {
-    let newHeadPosition: Position | null = null;
 
     //1. add a new head
-    if (movement == 'ArrowDown') {
-        newHeadPosition = moveDown(snake[0])
+    function calculateMove(movement: Movement) {
+
+        if (movement == 'ArrowDown') {
+            return moveDown(snake[0])
+        }
+        else if (movement == 'ArrowUp') {
+            return moveUp(snake[0])
+        }
+        else if (movement == 'ArrowRight') {
+            return moveRight(snake[0])
+        }
+        else if (movement == 'ArrowLeft') {
+            return moveLeft(snake[0])
+        }
+        else {
+            return null;
+        }
     }
-    else if (movement == 'ArrowUp') {
-        newHeadPosition = moveUp(snake[0])
-    }
-    else if (movement == 'ArrowRight') {
-        newHeadPosition = moveRight(snake[0])
-    }
-    else if (movement == 'ArrowLeft') {
-        newHeadPosition = moveLeft(snake[0])
-    }
+    const newMove = calculateMove(movement)
+    if (newMove === null) return null
 
     //2. remove the old tail
     const withoutTail = snake.slice(0, -1)
-    return [newHeadPosition, ...withoutTail]
+    return [newMove, ...withoutTail]
 }
 
 // useState timer
