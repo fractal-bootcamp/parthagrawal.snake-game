@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import './App.css'
 import { Movement, Position, Snake, calculateNextSnake } from './game'
 
