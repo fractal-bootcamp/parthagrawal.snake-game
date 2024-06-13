@@ -139,7 +139,11 @@ const Board = () => {
         {board.slice(20, 25).map((element, index) => { return <Cell value={element} /> })}
       </div>
       {/* {board.map((element, index) => <Row board={board} rowIdx={index} />)} */}
-    </div>
+      <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(false) }}>
+        Reset
+      </button>
+      {win ? <div>You Win!</div> : <></>}
+    </div >
   )
 
 }
