@@ -2,13 +2,13 @@
 type Cell = 'S' | 'A' | ''
 
 // a number between 0 and 24
-type Position = number
+export type Position = number
 
-type Snake = Position[] // first cell in the array is the position of its head
+export type Snake = Position[] // first cell in the array is the position of its head
 
-type Movement = 'up' | 'down' | 'left' | 'right'
+export type Movement = 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight'
 
-type Board = Cell[]
+export type Board = Cell[]
 
 const initialBoard: Board = Array(25).fill('')
 
@@ -32,20 +32,20 @@ function moveLeft(position: Position): Position | null {
 }
 
 
-function calculateNextSnake(snake: Snake, movement: Movement) {
+export function calculateNextSnake(snake: Snake, movement: Movement) {
     let newHeadPosition: Position | null = null;
 
     //1. add a new head
-    if (movement == 'down') {
+    if (movement == 'ArrowDown') {
         newHeadPosition = moveDown(snake[0])
     }
-    else if (movement == 'up') {
+    else if (movement == 'ArrowUp') {
         newHeadPosition = moveUp(snake[0])
     }
-    else if (movement == 'right') {
+    else if (movement == 'ArrowRight') {
         newHeadPosition = moveRight(snake[0])
     }
-    else if (movement == 'left') {
+    else if (movement == 'ArrowLeft') {
         newHeadPosition = moveLeft(snake[0])
     }
 

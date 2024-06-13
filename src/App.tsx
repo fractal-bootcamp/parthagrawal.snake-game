@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
+import { Movement, Snake, calculateNextSnake } from './game'
 
 type Cell = {
   display: string // snake | apple | X
@@ -43,17 +44,39 @@ const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
 
 
 }
+
+const initialSnake: Snake = [0, 1, 2]
+
 const Board = () => {
-
-  document.addEventListener('keydown', (event) => {
-    console.log(`Key: ${event.key} with keycode ${event.keyCode}`)
-  })
-
-
   const [board, setBoard] = useState(structuredClone(initialBoard))
+  const [snake, setSnake] = useState(structuredClone(initialSnake))
+  console.log("snake" + snake)
+
+
+  const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
+    const { key } = event;
+    console.log("new handle key press:", event)
+
+    setSnake(calculateNextSnake(snake, key as Movement))
+
+
+
+  }, [setSnake])
+
+
+  useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      console.log(`Key: ${event.key}`)
+      handleUserKeyPress(event)
+    })
+  }, [handleUserKeyPress])
+
+
   console.log(board)
   return (
     <div>
+      {/* board is an array of cells */}
+      {/* map over cells. draw the cells based on contents */}
       {board.map((element, index) => <Row board={board} rowIdx={index} />)}
     </div>
   )
