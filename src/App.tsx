@@ -159,24 +159,24 @@ const Board = () => {
   console.log("board repainted!:" + board)
   return (
     <div>
-      {/* board is an array of cells */}
-      {/* map over cells. draw the cells based on contents */}
-      <div className="flex flex-row m-1 gap-1">
-        {board.slice(0, 5).map((element, idx) => { return <Cell key={idx} value={element} /> })}
-      </div>
-      <div className="flex flex-row m-1 gap-1">
-        {board.slice(5, 10).map((element, idx) => { return <Cell key={idx} value={element} /> })}
-      </div>
-      <div className="flex flex-row m-1 gap-1">
-        {board.slice(10, 15).map((element, idx) => { return <Cell key={idx} value={element} /> })}
-      </div>
-      <div className="flex flex-row m-1 gap-1">
-        {board.slice(15, 20).map((element, idx) => { return <Cell key={idx} value={element} /> })}
-      </div>
-      <div className="flex flex-row m-1 gap-1">
-        {board.slice(20, 25).map((element, idx) => { return <Cell key={idx} value={element} /> })}
-      </div>
-      <div className='flex border-2 border-red-300'>
+      <div className='border-2 border-red-300'>
+        {/* board is an array of cells */}
+        {/* map over cells. draw the cells based on contents */}
+        <div className="flex flex-row m-1 gap-1">
+          {board.slice(0, 5).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+        </div>
+        <div className="flex flex-row m-1 gap-1">
+          {board.slice(5, 10).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+        </div>
+        <div className="flex flex-row m-1 gap-1">
+          {board.slice(10, 15).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+        </div>
+        <div className="flex flex-row m-1 gap-1">
+          {board.slice(15, 20).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+        </div>
+        <div className="flex flex-row m-1 gap-1">
+          {board.slice(20, 25).map((element, idx) => { return <Cell key={idx} value={element} /> })}
+        </div>
       </div>
       <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(false) }}>
         Reset
