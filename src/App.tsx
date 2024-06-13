@@ -98,23 +98,27 @@ const getPaintedBoard = (game: Game): Board => {
 const initialSnake: Snake = [2, 3, 4]
 const initialApple = Math.floor(Math.random() * 25 + 1)
 
+type WinState = 'WIN' | 'LOSE' | null
 const Board = () => {
   // const [board, setBoard] = useState(structuredClone(initialBoard))
   // const [game, setGame] = useState(structuredClone({ snake: initialSnake, apple: initialApple }))
   const [snake, setSnake] = useState(initialSnake)
   const [apple, setApple] = useState(initialApple)
-  const [win, setWin] = useState(false)
+  const [win, setWin] = useState<WinState>(null)
   const [moveDirection, setMoveDirection] = useState<Movement>('ArrowDown')
   const [step, setStep] = useState(0)
 
   const moveSnakeContinuously = () => {
     // debugger;
     const newSnake = calculateNextSnake(snake, moveDirection)
+    if (newSnake == null) {
+
+    }
     if (newSnake != null) {
       // const newGame = { ...game, snake: newSnake }
       // debugger;
       if (newSnake[0] == apple) {
-        setWin(true);
+        setWin('WIN');
       }
       setSnake(newSnake) // new game is correct, but setGame isn't resetting state
       // setCounter(counter + 1)
@@ -142,11 +146,11 @@ const Board = () => {
 
   // registers user keypress, if the game is still going
   useEffect(() => {
-    if (!win) {
+    if (win === null) {
       document.addEventListener('keydown', handleUserKeyPress)
       return () => { document.removeEventListener('keydown', handleUserKeyPress) }
     }
-    if (win) console.log('you win!')
+    if (win === null) console.log('you win!')
   }, [handleUserKeyPress, win])
 
   const board = getPaintedBoard({ apple, snake, moveDirection })
@@ -176,10 +180,23 @@ const Board = () => {
       <button onClick={() => { setSnake(initialSnake); setApple(initialApple); setWin(false) }}>
         Reset
       </button>
-      {win ? <div>You Win!</div> : <div>no win</div>}
+      <WinLabel win={win} />
+
     </div >
   )
 
+}
+
+const WinLabel = ({ win }: { win: WinState }) => {
+  if (win === 'WIN') {
+    return (<div>You Win!</div>)
+  }
+  else if (win === 'LOSE') {
+    return (<div>You Lose!</div>)
+  }
+  else {
+    return (<div>keep playing...</div>)
+  }
 }
 
 
