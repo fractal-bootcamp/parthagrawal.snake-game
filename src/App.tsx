@@ -63,11 +63,11 @@ const Cell = ({ value }: { value: string }) => {
   )
 }
 
-const initialSnake: Snake = [0, 1, 2]
+const initialSnake: Snake = [2, 3, 4]
 
 const getPaintedBoard = (game: Game): Board => {
   const { apple, snake } = game
-  const paintedBoard = [...initialBoard]
+  const paintedBoard = structuredClone(initialBoard)
   snake.forEach((position) => {
     paintedBoard[position] = 'S'
   })
@@ -79,18 +79,24 @@ const initialApple = Math.floor(Math.random() * 25 + 1)
 
 const Board = () => {
   // const [board, setBoard] = useState(structuredClone(initialBoard))
-  const [game, setGame] = useState({ snake: initialSnake, apple: initialApple })
+  // const [game, setGame] = useState(structuredClone({ snake: initialSnake, apple: initialApple }))
+  const [snake, setSnake] = useState(initialSnake)
+  const [apple, setApple] = useState(initialApple)
+  const [counter, setCounter] = useState(0)
 
   const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
     const { key } = event;
     console.log("new handle key press:", event)
 
-    const newSnake = calculateNextSnake(game.snake, key as Movement)
+    const newSnake = calculateNextSnake(snake, key as Movement)
     if (newSnake != null) {
-      setGame({ ...game, snake: newSnake })
+      // const newGame = { ...game, snake: newSnake }
+      // debugger;
+      setSnake(newSnake) // new game is correct, but setGame isn't resetting state
+      // setCounter(counter + 1)
     }
 
-  }, [setGame])
+  }, [setSnake, snake])
 
   useEffect(() => {
     document.addEventListener('keydown', handleUserKeyPress)
@@ -98,9 +104,9 @@ const Board = () => {
   }, [handleUserKeyPress])
 
 
-  const board = getPaintedBoard(game)
+  const board = getPaintedBoard({ apple, snake })
 
-  console.log(board)
+  console.log("board repainted!:" + board)
   return (
     <div>
       {/* board is an array of cells */}

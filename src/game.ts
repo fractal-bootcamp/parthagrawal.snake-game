@@ -33,6 +33,7 @@ export function calculateNextSnake(snake: Snake, movement: Movement) {
 
     //1. add a new head
     function calculateMove(movement: Movement) {
+
         if (movement == 'ArrowDown') {
             return moveDown(snake[0])
         }
