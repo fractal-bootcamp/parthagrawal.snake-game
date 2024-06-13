@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import './App.css'
-import { Movement, Snake, calculateNextSnake } from './game'
+import { Movement, Position, Snake, calculateNextSnake } from './game'
 
+
+const BOARD_SIZE = 25
 // type Cell = {
 //   display: string // snake | apple | X
 // }
@@ -23,12 +25,17 @@ import { Movement, Snake, calculateNextSnake } from './game'
 
 type Cell = 'S' | 'A' | ''
 
-
 type Board = Cell[]
+
+
+type Game = {
+  snake: Snake,
+  apple: Position,
+}
 
 // const initialBoard: Board = Array(25).fill('')
 // const initialBoard: Board = [{display: 'S'}, 'S', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
-const initialBoard: Board = ['S', 'S', 'S', 'S', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
+const initialBoard = Array(BOARD_SIZE).fill('')
 
 
 
@@ -58,33 +65,40 @@ const Cell = ({ value }: { value: string }) => {
 
 const initialSnake: Snake = [0, 1, 2]
 
-const Board = () => {
-  const [board, setBoard] = useState(structuredClone(initialBoard))
-  const [snake, setSnake] = useState(structuredClone(initialSnake))
-  console.log("snake" + snake)
+const getPaintedBoard = (game: Game): Board => {
+  const { apple, snake } = game
+  const paintedBoard = [...initialBoard]
+  snake.forEach((position) => {
+    paintedBoard[position] = 'S'
+  })
+  paintedBoard[apple] = 'A'
+  return paintedBoard
+}
 
+const initialApple = Math.floor(Math.random() * 25 + 1)
+
+const Board = () => {
+  // const [board, setBoard] = useState(structuredClone(initialBoard))
+  const [game, setGame] = useState({ snake: initialSnake, apple: initialApple })
 
   const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
     const { key } = event;
     console.log("new handle key press:", event)
 
-    setSnake(calculateNextSnake(snake, key as Movement))
+    const newSnake = calculateNextSnake(game.snake, key as Movement)
+    if (newSnake != null) {
+      setGame({ ...game, snake: newSnake })
+    }
 
-  }, [setSnake])
-
-  useEffect(() => {
-    const newBoard: Board = board.slice()
-
-
-  })
+  }, [setGame])
 
   useEffect(() => {
-    document.addEventListener('keydown', (event) => {
-      console.log(`Key: ${event.key}`)
-      handleUserKeyPress(event)
-    })
+    document.addEventListener('keydown', handleUserKeyPress)
+    return () => { document.removeEventListener('keydown', handleUserKeyPress) }
   }, [handleUserKeyPress])
 
+
+  const board = getPaintedBoard(game)
 
   console.log(board)
   return (
