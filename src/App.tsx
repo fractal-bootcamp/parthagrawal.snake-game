@@ -2,48 +2,58 @@ import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import { Movement, Snake, calculateNextSnake } from './game'
 
-type Cell = {
-  display: string // snake | apple | X
-}
+// type Cell = {
+//   display: string // snake | apple | X
+// }
+
+
 
 // type Row = Cell[]
 
-type Board = Cell[][]
 
 
 // 5x5 boards
-const initialBoard: Board = [
-  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
-  [{ display: "" }, { display: "" }, { display: "S" }, { display: "" }, { display: "" },],
-  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
-  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
-  [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
-]
+// const initialBoard: Board = [
+//   [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+//   [{ display: "" }, { display: "" }, { display: "S" }, { display: "" }, { display: "" },],
+//   [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+//   [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+//   [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
+// ]
+
+type Cell = 'S' | 'A' | ''
+
+
+type Board = Cell[]
+
+// const initialBoard: Board = Array(25).fill('')
+const initialBoard: Board = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
+
+
 const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx: number }) => {
   return (
     <div className='flex border border-5 flex-row h-10 w-10'>
       {board[rowIdx][colIdx].display}
     </div>
 
-
   )
 
 }
 
-const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
-  return (
-    <>
-      <div className="flex flex-row bg-green-200 border border-5">
-        {board[rowIdx].map((element, idx) => {
-          return (<Cell board={board} rowIdx={rowIdx} colIdx={idx} />)
-        })}
+// const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
+//   return (
+//     <>
+//       <div className="flex flex-row bg-green-200 border border-5">
+//         {board[rowIdx].map((element, idx) => {
+//           return (<Cell board={board} rowIdx={rowIdx} colIdx={idx} />)
+//         })}
 
-      </div>
-    </>
-  )
+//       </div>
+//     </>
+//   )
 
 
-}
+// }
 
 const initialSnake: Snake = [0, 1, 2]
 
