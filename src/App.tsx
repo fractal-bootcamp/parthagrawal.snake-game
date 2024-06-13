@@ -82,7 +82,7 @@ const Board = () => {
   // const [game, setGame] = useState(structuredClone({ snake: initialSnake, apple: initialApple }))
   const [snake, setSnake] = useState(initialSnake)
   const [apple, setApple] = useState(initialApple)
-  const [counter, setCounter] = useState(0)
+  const [win, setWin] = useState(false)
 
   const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
     const { key } = event;
@@ -92,16 +92,28 @@ const Board = () => {
     if (newSnake != null) {
       // const newGame = { ...game, snake: newSnake }
       // debugger;
+      if (newSnake[0] == apple) {
+        setWin(true);
+      }
       setSnake(newSnake) // new game is correct, but setGame isn't resetting state
       // setCounter(counter + 1)
+
     }
 
   }, [setSnake, snake])
 
   useEffect(() => {
-    document.addEventListener('keydown', handleUserKeyPress)
-    return () => { document.removeEventListener('keydown', handleUserKeyPress) }
-  }, [handleUserKeyPress])
+    if (!win) {
+      document.addEventListener('keydown', handleUserKeyPress)
+      return () => { document.removeEventListener('keydown', handleUserKeyPress) }
+    }
+  }, [handleUserKeyPress, win])
+
+  useEffect(() => {
+
+    console.log('you win!')
+
+  }, [win])
 
 
   const board = getPaintedBoard({ apple, snake })
