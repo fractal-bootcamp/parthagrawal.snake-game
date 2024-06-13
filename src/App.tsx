@@ -91,7 +91,21 @@ const Board = () => {
     <div>
       {/* board is an array of cells */}
       {/* map over cells. draw the cells based on contents */}
-      {board.map((element, index) => { return <Cell value={element} /> })}
+      <div className="flex flex-row">
+        {board.slice(0, 5).map((element, index) => { return <Cell value={element} /> })}
+      </div>
+      <div className="flex flex-row">
+        {board.slice(5, 10).map((element, index) => { return <Cell value={element} /> })}
+      </div>
+      <div className="flex flex-row">
+        {board.slice(10, 15).map((element, index) => { return <Cell value={element} /> })}
+      </div>
+      <div className="flex flex-row">
+        {board.slice(15, 20).map((element, index) => { return <Cell value={element} /> })}
+      </div>
+      <div className="flex flex-row">
+        {board.slice(20, 25).map((element, index) => { return <Cell value={element} /> })}
+      </div>
       {/* {board.map((element, index) => <Row board={board} rowIdx={index} />)} */}
     </div>
   )
