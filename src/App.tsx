@@ -182,10 +182,10 @@ const Board = () => {
 
 const WinLabel = ({ win }: { win: WinState }) => {
   if (win === 'WIN') {
-    return (<div>You Win!</div>)
+    return (<div className='bg-green-300'>You Win!</div>)
   }
   else if (win === 'LOSE') {
-    return (<div>You Lose!</div>)
+    return (<div className='bg-red-300'>You Lose!</div>)
   }
   else {
     return (<div>keep playing...</div>)
