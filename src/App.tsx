@@ -21,24 +21,17 @@ import { Movement, Snake, calculateNextSnake } from './game'
 //   [{ display: "" }, { display: "" }, { display: "" }, { display: "" }, { display: "" },],
 // ]
 
-type Cell = 'S' | 'A' | ''
-
+type Cell = {
+  display: 'S' | 'A' | ''
+}
 
 type Board = Cell[]
 
 // const initialBoard: Board = Array(25).fill('')
-const initialBoard: Board = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
+const initialBoard: Board = ['S', 'S', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
 
 
-const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx: number }) => {
-  return (
-    <div className='flex border border-5 flex-row h-10 w-10'>
-      {board[rowIdx][colIdx].display}
-    </div>
 
-  )
-
-}
 
 // const Row = ({ board, rowIdx }: { board: Board, rowIdx: number }) => {
 //   return (
@@ -55,6 +48,15 @@ const Cell = ({ board, rowIdx, colIdx }: { board: Board, rowIdx: number, colIdx:
 
 // }
 
+const Cell = ({ display }: Cell) => {
+  return (
+    <div className='flex border bg-green-400 border-5 flex-row h-10 w-10'>
+      {display}
+    </div>
+
+  )
+}
+
 const initialSnake: Snake = [0, 1, 2]
 
 const Board = () => {
@@ -68,8 +70,6 @@ const Board = () => {
     console.log("new handle key press:", event)
 
     setSnake(calculateNextSnake(snake, key as Movement))
-
-
 
   }, [setSnake])
 
@@ -87,7 +87,8 @@ const Board = () => {
     <div>
       {/* board is an array of cells */}
       {/* map over cells. draw the cells based on contents */}
-      {board.map((element, index) => <Row board={board} rowIdx={index} />)}
+      {board.map((element, index) => { return <Cell display={element.display} /> })}
+      {/* {board.map((element, index) => <Row board={board} rowIdx={index} />)} */}
     </div>
   )
 
