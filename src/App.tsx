@@ -112,6 +112,7 @@ const Board = () => {
     // debugger;
     const newSnake = calculateNextSnake(snake, moveDirection)
     if (newSnake == null) {
+      setWin('LOSE')
 
     }
     if (newSnake != null) {
@@ -129,7 +130,7 @@ const Board = () => {
   // move the snake continuously per setInterval.
   // keypress sets the new direction
   useEffect(() => {
-    moveSnakeContinuously()
+    if (win === null) moveSnakeContinuously()
     setTimeout(() => setStep(step + 1), 2000);
     // return clearInterval(id)
   }, [step])
